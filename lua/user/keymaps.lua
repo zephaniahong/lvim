@@ -1,5 +1,6 @@
 M = {}
 lvim.leader = "space"
+vim.opt.timeoutlen = 100
 
 local opts = { noremap = true, silent = true }
 -- For the description on keymaps, I have a function getOptions(desc) which returns noremap=true, silent=true and desc=desc. Then call: keymap(mode, keymap, command, getOptions("some randome desc")
@@ -11,11 +12,11 @@ keymap("n", "<C-i>", "<C-i>", opts)
 
 -- Normal --
 -- Better window navigation
-keymap("n", "<m-h>", "<C-w>h", opts)
-keymap("n", "<m-j>", "<C-w>j", opts)
-keymap("n", "<m-k>", "<C-w>k", opts)
-keymap("n", "<m-l>", "<C-w>l", opts)
-keymap("n", "<m-tab>", "<c-6>", opts)
+-- keymap("n", "<m-h>", "<C-w>h", opts)
+-- keymap("n", "<m-j>", "<C-w>j", opts)
+-- keymap("n", "<m-k>", "<C-w>k", opts)
+-- keymap("n", "<m-l>", "<C-w>l", opts)
+-- keymap("n", "<m-tab>", "<c-6>", opts)
 
 function _G.set_terminal_keymaps()
   vim.api.nvim_buf_set_keymap(0, "t", "<m-h>", [[<C-\><C-n><C-W>h]], opts)
@@ -33,10 +34,13 @@ vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
 -- keymap("n", "<s-\\>", ":tabonly<cr>", opts)
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+-- keymap("n", "<C-Up>", ":resize -2<CR>", opts)
+-- keymap("n", "<C-Down>", ":resize +2<CR>", opts)
+-- keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+-- keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["|"] = ":vsplit<CR>"
+lvim.keys.normal_mode["-"] = ":split<CR>"
 
 keymap("n", "<c-j>", "<c-d>", opts)
 keymap("n", "<c-k>", "<c-u>", opts)

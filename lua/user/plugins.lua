@@ -41,6 +41,50 @@ lvim.plugins = {
   "petertriho/nvim-scrollbar",
   "renerocksai/telekasten.nvim",
   "renerocksai/calendar-vim",
+   {
+    "phaazon/hop.nvim",
+    event = "BufRead",
+    config = function()
+      require("hop").setup()
+      vim.api.nvim_set_keymap("n", "s", ":HopWord<cr>", { silent = true })
+      vim.api.nvim_set_keymap("n", "S", ":HopWordMW<cr>", { silent = true })
+    end,
+  },
+  {
+    "s1n7ax/nvim-window-picker",
+    tag = "1.*",
+    config = function()
+      require("window-picker").setup({
+        autoselect_one = true,
+        include_current = false,
+        filter_rules = {
+          -- filter using buffer options
+          bo = {
+            -- if the file type is one of following, the window will be ignored
+            filetype = { "neo-tree", "neo-tree-popup", "notify", "quickfix" },
+
+            -- if the buffer type is one of following, the window will be ignored
+            buftype = { "terminal" },
+          },
+        },
+        other_win_hl_color = "#e35e4f",
+      })
+      local picker = require('window-picker')
+      vim.keymap.set("n", ",w", function()
+        local picked_window_id = picker.pick_window({
+          include_current_win = false
+        }) or vim.api.nvim_get_current_win()
+        vim.api.nvim_set_current_win(picked_window_id)
+      end, { desc = "Pick a window" })
+    end,
+  },
+  {
+    'rose-pine/neovim',
+    as = 'rose-pine',
+    config = function()
+      require('rose-pine').setup({ dark_variant = "moon" })
+    end
+  },
   {
     "saecki/crates.nvim",
     tag = "v0.3.0",
@@ -69,28 +113,28 @@ lvim.plugins = {
     run = "cd js && npm ci",
   },
   { "tzachar/cmp-tabnine", run = "./install.sh" },
-  {
-    "zbirenbaum/copilot.lua",
-    -- event = { "VimEnter" },
-    config = function()
-      vim.defer_fn(function()
-        require("copilot").setup {
-          plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
-        }
-      end, 100)
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup {
-        formatters = {
-          insert_text = require("copilot_cmp.format").remove_existing,
-        },
-      }
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   -- event = { "VimEnter" },
+  --   config = function()
+  --     vim.defer_fn(function()
+  --       require("copilot").setup {
+  --         plugin_manager_path = os.getenv "LUNARVIM_RUNTIME_DIR" .. "/site/pack/packer",
+  --       }
+  --     end, 100)
+  --   end,
+  -- },
+ -- {
+  --  "zbirenbaum/copilot-cmp",
+   -- after = { "copilot.lua" },
+    --config = function()
+     -- require("copilot_cmp").setup {
+      --  formatters = {
+       --   insert_text = require("copilot_cmp.format").remove_existing,
+        --},
+      --}
+    --end,
+  --},
   -- "MunifTanjim/nui.nvim",
   -- {
   --   "folke/noice.nvim",
